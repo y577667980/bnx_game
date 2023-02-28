@@ -12,7 +12,21 @@ from eth_account import Account
 from eth_account.messages import encode_defunct
 from loguru import logger
 
-s = 'O&FPGp+on=vX.V@Nc17dsat85TWwgSzfyZLIuq4AYJK6r2kmC3lhbBR9HiEeUDj0MxQ'
+# TODO 版本号
+cv = 217
+
+Rules = ["uDx.UvmhMXyOE4QG5Le1b6Zip7YR&kAcdJKj@Snt2lP3N+aqfH9r=FoIswzW8CBg0VT",
+         "A1M8E3F7KtUHcv@J&N+LopDqS25QIOZYuVhRlzknjTebgrdyw9.x6CWsa=GB0mPif4X",
+         "O&FPGp+on=vX.V@Nc17dsat85TWwgSzfyZLIuq4AYJK6r2kmC3lhbBR9HiEeUDj0MxQ",
+         "&u95ehs1H8LWI2ZFlvNpm7xgUS.ErbqiM6JcY+PXdD3=ojQRkKTB4wnzVtOaC0@yGfA",
+         "sSHmxX=iTn1bL3jB8K0Ww6e4UJRDh2yV&ZAdOMrIN7+apEPzvCFfuG.ql9cYgkt5o@Q",
+         "W7pxPGoa.6MibguTvweUd@n3m2qSkHsLRVXKfl+&YFyErD94CA1BOhI=z5tjJ0N8ZcQ",
+         "xqWYNwCLAQkiEPUfdT8tFO.lbmV+=u@6Rvy52coHDr37jeBS40M9Gap1szK&JZXngIh",
+         "61tw+.YVJhWZL@R23obMrD=l9dOnNcEAk04HUupQSXFsG&ByjaxCg8i7PI5mKfqzveT",
+         "Har3jpB.KO1btnXWv+U9LYidofQ7q4lCAFMeE6uJSmZTxcszk&P@w=hI0GyN58VRg2D",
+         "eEP6vhCdTHnGxXO=qlouNkKwBJ+mbcF7@Za4L3jRYtU&VI1AW.9M5Q8rgp2DszSf0iy"]
+
+s = Rules[cv % 10]
 
 
 def get_uk(account_address):
@@ -72,11 +86,11 @@ def login(private_key):
     uk = get_uk(account.address.lower())
     key, _tk = get_key()
     value = get_sign({
-        "account": account.address.lower(), "uk": uk, "ukSign": signature, "shareCode": "", "w": 1, "cv": 212
+        "account": account.address.lower(), "uk": uk, "ukSign": signature, "shareCode": "", "w": 1, "cv": 217
     }, _tk, s)
     params = {
-        'account': account.address.lower(), 'uk': uk, 'ukSign': signature, 'shareCode': '', 'w': 1, 'cv': 212,
-        key: value, '_tk': _tk, '_cv': '212'}
+        'account': account.address.lower(), 'uk': uk, 'ukSign': signature, 'shareCode': '', 'w': 1, 'cv': 217,
+        key: value, '_tk': _tk, '_cv': '217'}
     response = requests.get(url='https://raid.binaryx.pro/chess/login/doChainLogin', params=params).json()
     logger.debug(response)
     if response.get('uid', False):
@@ -96,12 +110,12 @@ def attack(_token, _uid, _consume=200):
     headers = {
         'Accept': '*/*', 'Accept-Language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7', 'Cache-Control': 'no-cache',
         'Connection': 'keep-alive', 'Pragma': 'no-cache',
-        'Referer': 'https://raid.binaryx.pro/212/web-desktop/index.html?v=14287257',
+        'Referer': 'https://raid.binaryx.pro/217/web-desktop/index.html?v=14287257',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
         'language': 'en', 'token': _token}
     key, _tk = get_key()
     value = get_sign({"_consume": _consume}, _tk, s)
-    params = {'consume': str(_consume), key: value, '_tk': _tk, '_cv': '212', '_uid': _uid}
+    params = {'consume': str(_consume), key: value, '_tk': _tk, '_cv': '217', '_uid': _uid}
     response = requests.get('https://raid.binaryx.pro/chess/demonKing/attack', params=params, headers=headers)
     logger.debug(response.text)
 
@@ -112,10 +126,10 @@ def enter_demon_king(_token, _uid):
     headers = {
         'Accept': '*/*', 'Accept-Language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7', 'Cache-Control': 'no-cache',
         'Connection': 'keep-alive', 'Pragma': 'no-cache',
-        'Referer': 'https://raid.binaryx.pro/212/web-desktop/index.html?v=14287257',
+        'Referer': 'https://raid.binaryx.pro/217/web-desktop/index.html?v=14287257',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
         'language': 'en', 'token': _token}
-    params = {key: value, '_tk': _tk, '_cv': '212', '_uid': _uid}
+    params = {key: value, '_tk': _tk, '_cv': '217', '_uid': _uid}
 
     response = requests.get('https://raid.binaryx.pro/chess/demonKing/enterDemonKing', params=params,
                             headers=headers).json()
