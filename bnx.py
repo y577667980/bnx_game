@@ -86,11 +86,11 @@ def login(private_key):
     uk = get_uk(account.address.lower())
     key, _tk = get_key()
     value = get_sign({
-        "account": account.address.lower(), "uk": uk, "ukSign": signature, "shareCode": "", "w": 1, "cv": 217
+        "account": account.address.lower(), "uk": uk, "ukSign": signature, "shareCode": "", "w": 1, "cv": cv
     }, _tk, s)
     params = {
-        'account': account.address.lower(), 'uk': uk, 'ukSign': signature, 'shareCode': '', 'w': 1, 'cv': 217,
-        key: value, '_tk': _tk, '_cv': '217'}
+        'account': account.address.lower(), 'uk': uk, 'ukSign': signature, 'shareCode': '', 'w': 1, 'cv': cv,
+        key: value, '_tk': _tk, '_cv': str(cv)}
     response = requests.get(url='https://raid.binaryx.pro/chess/login/doChainLogin', params=params).json()
     logger.debug(response)
     if response.get('uid', False):
@@ -110,12 +110,12 @@ def attack(_token, _uid, _consume=200):
     headers = {
         'Accept': '*/*', 'Accept-Language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7', 'Cache-Control': 'no-cache',
         'Connection': 'keep-alive', 'Pragma': 'no-cache',
-        'Referer': 'https://raid.binaryx.pro/217/web-desktop/index.html?v=14287257',
+        'Referer': f'https://raid.binaryx.pro/{cv}/web-desktop/index.html',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
         'language': 'en', 'token': _token}
     key, _tk = get_key()
     value = get_sign({"_consume": _consume}, _tk, s)
-    params = {'consume': str(_consume), key: value, '_tk': _tk, '_cv': '217', '_uid': _uid}
+    params = {'consume': str(_consume), key: value, '_tk': _tk, '_cv': str(cv), '_uid': _uid}
     response = requests.get('https://raid.binaryx.pro/chess/demonKing/attack', params=params, headers=headers)
     logger.debug(response.text)
 
@@ -126,10 +126,10 @@ def enter_demon_king(_token, _uid):
     headers = {
         'Accept': '*/*', 'Accept-Language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7', 'Cache-Control': 'no-cache',
         'Connection': 'keep-alive', 'Pragma': 'no-cache',
-        'Referer': 'https://raid.binaryx.pro/217/web-desktop/index.html?v=14287257',
+        'Referer': f'https://raid.binaryx.pro/{cv}/web-desktop/index.html',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
         'language': 'en', 'token': _token}
-    params = {key: value, '_tk': _tk, '_cv': '217', '_uid': _uid}
+    params = {key: value, '_tk': _tk, '_cv': str(cv), '_uid': _uid}
 
     response = requests.get('https://raid.binaryx.pro/chess/demonKing/enterDemonKing', params=params,
                             headers=headers).json()
@@ -144,5 +144,5 @@ if __name__ == '__main__':
     token, uid = login(_account.key.hex())
     # TODO 打怪
     # attack(token, uid)
-    # TODO 查询数据
+    # # TODO 查询数据
     # enter_demon_king(token, uid)
